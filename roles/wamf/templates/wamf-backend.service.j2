@@ -1,0 +1,21 @@
+[Unit]
+Description=Start WAMF Backend
+After=docker.service network-online.target
+Requires=docker.service network-online.target
+
+[Service]
+WorkingDirectory={{ server_working_directory }}
+Type=oneshot
+RemainAfterExit=yes
+User={{ ansible_user }}
+
+ExecStartPre={{ docker_path }} compose pull --quiet --parallel
+ExecStart={{ docker_path }} compose up -d
+
+ExecStop={{ docker_path }} compose down
+
+ExecReload={{ docker_path }} compose pull --quiet --parallel
+ExecReload={{ docker_path }} compose up -d
+
+[Install]
+WantedBy=multi-user.target
