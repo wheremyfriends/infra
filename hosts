@@ -1,0 +1,1 @@
+wamf.tech ansible_user=orbital ansible_ssh_private_key_file=~/.ssh/orbital_key.pem
