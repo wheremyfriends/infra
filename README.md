@@ -13,12 +13,14 @@
     - Private key/Password
 
 - Fill up `secrets.yaml`
-    - `cp secrets-example.yaml secrets.yaml`
+    ```
+    cp secrets-example.yaml secrets.yaml
+    ```
 
 - Run `ansible-playbook`
-```
-ansible-playbook -i hosts main.yaml
-```
+    ```
+    ansible-playbook -i hosts main.yaml
+    ```
 
 ## Services
 
