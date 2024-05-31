@@ -1,0 +1,59 @@
+---
+- name: Copy all files over
+  copy:
+    src: ./
+    dest: "{{ working_directory }}"
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+
+- name: Copy env file for server
+  template:
+    src: env.server.j2
+    dest: "{{ server_working_directory }}/.env"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0600'
+
+- name: Copy env file for client
+  template:
+    src: env.client.j2
+    dest: "{{ working_directory }}/.env"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0600'
+
+- name: Log into docker
+  become_user: "{{ansible_user}}"
+  shell: echo "{{ GHCR_API_KEY }}" | docker login --username "{{GHCR_USER}}" --password-stdin ghcr.io
+
+- name: Install wamf-webhook.service
+  ansible.builtin.template:
+    src: wamf-webhook.service.j2
+    dest: /etc/systemd/system/wamf-webhook.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install wamf-backend.service
+  ansible.builtin.template:
+    src: wamf-backend.service.j2
+    dest: /etc/systemd/system/wamf-backend.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Reload systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Start wamf-webhook.service
+  ansible.builtin.systemd_service:
+    name: wamf-webhook.service
+    enabled: true
+    state: started
+
+- name: Start wamf-backend.service
+  ansible.builtin.systemd_service:
+    name: wamf-backend.service
+    enabled: true
+    state: started

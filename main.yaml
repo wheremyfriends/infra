@@ -1,0 +1,13 @@
+---
+- hosts: all
+  vars_files:
+    - secrets.yaml
+
+  roles:
+    - role: nginx
+      become: yes
+    - role: docker
+      become: yes
+    - role: wamf
+      become: yes
+

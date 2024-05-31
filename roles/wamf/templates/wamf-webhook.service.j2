@@ -1,0 +1,13 @@
+[Unit]
+Description=WAMF Webhook
+After=network.target
+
+[Service]
+WorkingDirectory={{ working_directory }}
+User={{ ansible_user }}
+ExecStartPre={{ poetry_path }} install
+ExecStart={{ poetry_path }} run webhook
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

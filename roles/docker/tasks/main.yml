@@ -1,0 +1,11 @@
+---
+- name: Install docker
+  become: yes
+  shell: curl -fsSL https://get.docker.com | sh
+
+- name: adding existing user "{{ ansible_user }}" to group sudo
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+  become: yes
