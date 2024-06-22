@@ -8,39 +8,37 @@
     ansible-galaxy collection install community.general
     ```
 
-- Set up keys to connect to host (fill up the `hosts` file)
-    - Username
-    - Private key/Password
+- Set up the private key paths in the `hosts` file
 
-- Fill up `secrets.yaml`
-    ```
-    cp secrets-example.yaml secrets.yaml
-    ```
+- Run `ansible-playbook`,
+  the password is ********.
+  ```bash
+  ansible-playbook -i hosts -e @secrets.enc --ask-vault-pass dev.yaml
+  ```
 
-- Run `ansible-playbook`
-    ```
-    ansible-playbook -i hosts main.yaml
-    ```
+## Architecture
 
-## Services
+- `frontend`
+    - Located in `/var/www/wamf`
+- `backend` 
+    - `compose.yaml` located in `~/infra`
+    - Port 4000
+- `wamf-webhook`
+    - Managed by `systemd`
+    - Port 8000
 
-- `wamf-backend` (port 4000)
-- `wamf-webhook` (port 8000)
-
-There are all managed by systemd
+Caddy is used as reverse proxy
 
 ## Directory Structure on Production
 
 ```
 ~/
 ├─ infra/
-│  ├─ client/
-│  │  ├─ deploy_client.py
 │  ├─ webhook/
 │  │  ├─ webhook.py
-│  ├─ server/
-│  │  ├─ compose.yaml
+│  │  ├─ client.py
+│  ├─ compose.yaml
 ```
 
-- `webhook/` to listen for changes in the repo
-- `server/` and `client/` stores the required files to re-deploy the service
+- `webhook/` to listen for changes in the repo,
+  and redeploy on notify.
