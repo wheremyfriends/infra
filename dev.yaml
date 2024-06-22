@@ -1,8 +1,5 @@
 ---
 - hosts: dev
-  vars_files:
-    - secrets.yaml
-
   roles:
     - role: docker
       tags: docker
