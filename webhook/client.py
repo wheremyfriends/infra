@@ -1,7 +1,5 @@
 import logging
-import shutil
 import subprocess
-import tarfile
 from datetime import datetime
 from pathlib import Path
 
@@ -13,7 +11,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-config = dotenv_values(".env")
+config = dotenv_values(".env.client")
 API_KEY = config["GITHUB_API_KEY"]
 
 ARTIFACT_NAME = "github-pages"

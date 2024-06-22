@@ -1,0 +1,19 @@
+- name: Copy webhook files
+  copy:
+    src: "{{item}}"
+    dest: "{{ working_directory }}"
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+  loop:
+    - ./webhook
+    - poetry.lock
+    - pyproject.toml
+
+- name: Install wamf-webhook.service
+  ansible.builtin.template:
+    src: wamf-webhook.service.j2
+    dest: /etc/systemd/system/wamf-webhook.service
+    owner: root
+    group: root
+    mode: '0644'
+

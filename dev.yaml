@@ -1,0 +1,22 @@
+---
+- hosts: dev
+  vars_files:
+    - secrets.yaml
+
+  roles:
+    - role: docker
+      tags: docker
+      become: yes
+
+    - role: caddy
+      tags: caddy
+      become: yes
+
+    - role: poetry
+      tags: poetry
+      become: yes
+
+    - role: wamf
+      tags: wamf
+      become: yes
+

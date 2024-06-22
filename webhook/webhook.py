@@ -3,7 +3,7 @@ import subprocess
 
 from fastapi import FastAPI, Request
 
-from client.deploy_frontend import deploy_frontend
+from .client import deploy_frontend
 
 logging.basicConfig()
 
@@ -37,7 +37,7 @@ async def receive_json(request: Request):
 def main():
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, port=8000)
 
 
 if __name__ == "__main__":

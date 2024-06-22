@@ -1,0 +1,8 @@
+- name: Copy env file for client
+  template:
+    src: env.client.j2
+    dest: "{{ working_directory }}/.env.client"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0600'
+

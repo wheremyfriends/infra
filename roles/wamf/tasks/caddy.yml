@@ -1,0 +1,14 @@
+- name: Copy over caddy file
+  template:
+    src: Caddyfile.j2
+    dest: "{{working_directory}}/Caddyfile"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+  vars:
+    hostname: dev.wamf.tech
+
+- name: Start caddy
+  command:
+    cmd: sudo -E caddy start
+    chdir: "{{working_directory}}"

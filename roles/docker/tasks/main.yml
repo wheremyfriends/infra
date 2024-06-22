@@ -3,7 +3,7 @@
   become: yes
   shell: curl -fsSL https://get.docker.com | sh
 
-- name: adding existing user "{{ ansible_user }}" to group sudo
+- name: adding existing user "{{ ansible_user }}" to group docker
   user:
     name: "{{ ansible_user }}"
     groups: docker

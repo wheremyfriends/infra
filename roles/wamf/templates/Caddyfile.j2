@@ -1,0 +1,13 @@
+{{hostname}} {
+    handle /graphql {
+        reverse_proxy :4000
+    }
+    handle /postreceive {
+        reverse_proxy :8000
+    }
+    handle {
+        root * /var/www/wamf
+        try_files {path} index.html
+        file_server
+    }
+}

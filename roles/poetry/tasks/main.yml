@@ -1,0 +1,12 @@
+---
+- name: Install pipx
+  apt:
+    name: pipx
+    state: latest
+
+- name: Install poetry
+  become_user: "{{ ansible_user }}"
+  community.general.pipx:
+    name: poetry
+    state: latest
+

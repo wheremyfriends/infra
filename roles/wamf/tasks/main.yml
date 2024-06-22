@@ -1,59 +1,41 @@
 ---
-- name: Copy all files over
-  copy:
-    src: ./
-    dest: "{{ working_directory }}"
-    owner: "{{ansible_user}}"
-    group: "{{ansible_user}}"
-
-- name: Copy env file for server
-  template:
-    src: env.server.j2
-    dest: "{{ server_working_directory }}/.env"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: '0600'
-
-- name: Copy env file for client
-  template:
-    src: env.client.j2
-    dest: "{{ working_directory }}/.env"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: '0600'
-
+# Dependencies
+# Client
+# Server
+# Webhook
+# Caddy
 - name: Log into docker
   become_user: "{{ansible_user}}"
   shell: echo "{{ GHCR_API_KEY }}" | docker login --username "{{GHCR_USER}}" --password-stdin ghcr.io
 
-- name: Install wamf-webhook.service
-  ansible.builtin.template:
-    src: wamf-webhook.service.j2
-    dest: /etc/systemd/system/wamf-webhook.service
-    owner: root
-    group: root
-    mode: '0644'
+- name: Make directories
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+  loop:
+    - "{{working_directory}}"
 
-- name: Install wamf-backend.service
-  ansible.builtin.template:
-    src: wamf-backend.service.j2
-    dest: /etc/systemd/system/wamf-backend.service
-    owner: root
-    group: root
-    mode: '0644'
+- name: Include caddy.yml
+  include_tasks: ./caddy.yml
+
+- name: Include webhook.yml
+  include_tasks: ./webhook.yml
+
+- name: Include server.yml
+  include_tasks: ./server.yml
+
+- name: Include client.yml
+  include_tasks: ./client.yml
 
 - name: Reload systemd
   ansible.builtin.systemd_service:
     daemon_reload: true
 
-- name: Start wamf-webhook.service
+- name: Start webhook service
   ansible.builtin.systemd_service:
     name: wamf-webhook.service
-    enabled: true
-    state: started
-
-- name: Start wamf-backend.service
-  ansible.builtin.systemd_service:
-    name: wamf-backend.service
     enabled: true
     state: started
