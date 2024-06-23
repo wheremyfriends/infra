@@ -5,7 +5,7 @@
 # Webhook
 # Caddy
 - name: Change ownership of all files to be owned by user
-  command: 
+  command:
     cmd: chown -R {{ansible_user}}:{{ansible_user}} .
     chdir: "{{ansible_env.HOME}}"
 

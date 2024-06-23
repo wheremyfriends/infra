@@ -4,7 +4,7 @@
     dest: "{{ working_directory }}/.env"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: '0600'
+    mode: "0600"
 
 - name: Copy compose.yaml
   copy:
@@ -12,8 +12,7 @@
     dest: "{{ working_directory }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: '0644'
-
+    mode: "0644"
 
 - name: Start containers
   become_user: "{{ansible_user}}"
