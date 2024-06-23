@@ -2,9 +2,13 @@
     handle /graphql {
         reverse_proxy :4000
     }
+    {%- if enable_webhook | bool %}
+
     handle /postreceive {
         reverse_proxy :8000
     }
+    {%- endif %}
+
     handle {
         root * /var/www/wamf
         try_files {path} index.html

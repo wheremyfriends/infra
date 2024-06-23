@@ -1,8 +1,9 @@
 ---
-- hosts: dev
+- hosts: prod
   vars:
-    enable_webhook: yes
-    hostname: dev.wamf.tech
+    enable_webhook: no
+    hostname: wamf.tech
+
   roles:
     - role: docker
       tags: docker
@@ -10,10 +11,6 @@
 
     - role: caddy
       tags: caddy
-      become: yes
-
-    - role: poetry
-      tags: poetry
       become: yes
 
     - role: wamf

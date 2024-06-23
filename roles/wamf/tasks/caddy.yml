@@ -9,6 +9,7 @@
     hostname: dev.wamf.tech
 
 - name: Start caddy
+  become_user: "{{ansible_user}}"
   command:
     cmd: sudo -E caddy start
     chdir: "{{working_directory}}"

@@ -19,3 +19,9 @@
     name: caddy
     state: latest
     update_cache: yes
+
+- name: Disable caddy service
+  systemd_service:
+    name: caddy
+    state: stopped
+    enabled: false

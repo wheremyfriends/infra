@@ -21,21 +21,9 @@
 - name: Include caddy.yml
   include_tasks: ./caddy.yml
 
-- name: Include webhook.yml
-  include_tasks: ./webhook.yml
-
 - name: Include server.yml
   include_tasks: ./server.yml
 
-- name: Include client.yml
-  include_tasks: ./client.yml
-
-- name: Reload systemd
-  ansible.builtin.systemd_service:
-    daemon_reload: true
-
-- name: Start webhook service
-  ansible.builtin.systemd_service:
-    name: wamf-webhook.service
-    enabled: true
-    state: started
+- name: Include webhook.yml
+  include_tasks: ./webhook.yml
+  when: enable_webhook | bool

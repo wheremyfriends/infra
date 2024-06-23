@@ -14,3 +14,9 @@
     group: "{{ ansible_user }}"
     mode: '0644'
 
+
+- name: Start containers
+  become_user: "{{ansible_user}}"
+  command:
+    cmd: docker compose up -d
+    chdir: "{{ working_directory }}"

@@ -1,5 +1,3 @@
 ---
-# vars file for systemd
 working_directory: "{{ ansible_env.HOME }}/infra"
 poetry_path: "{{ ansible_env.HOME }}/.local/bin/poetry"
-docker_path: "/usr/bin/docker"

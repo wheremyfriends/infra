@@ -1,2 +1,3 @@
 ---
-# defaults file for systemd
+hostname: "dev.wamf.tech"
+enable_webhook: no

@@ -1,3 +1,4 @@
+---
 - name: Copy webhook files
   copy:
     src: "{{item}}"
@@ -17,3 +18,21 @@
     group: root
     mode: '0644'
 
+- name: Copy env file
+  template:
+    src: env.client.j2
+    dest: "{{ working_directory }}/.env.client"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0600'
+
+
+- name: Reload systemd
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Start webhook service
+  ansible.builtin.systemd_service:
+    name: wamf-webhook.service
+    enabled: true
+    state: started
