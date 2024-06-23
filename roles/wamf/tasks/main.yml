@@ -4,6 +4,11 @@
 # Server
 # Webhook
 # Caddy
+- name: Change ownership of all files to be owned by user
+  command: 
+    cmd: chown -R {{ansible_user}}:{{ansible_user}} .
+    chdir: "{{ansible_env.HOME}}"
+
 - name: Log into docker
   become_user: "{{ansible_user}}"
   shell: echo "{{ GHCR_API_KEY }}" | docker login --username "{{GHCR_USER}}" --password-stdin ghcr.io
