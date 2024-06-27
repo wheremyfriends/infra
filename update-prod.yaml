@@ -1,0 +1,36 @@
+---
+- hosts: prod
+  tasks:
+    - name: Zip static files on dev
+      command:
+        cmd: tar -C /var/www/wamf -cf pages.tar.gz ./
+        chdir: /tmp
+      delegate_to: dev
+
+    - name: Copy files locally
+      fetch:
+        src: /tmp/pages.tar.gz
+        dest: ./
+        flat: true
+      delegate_to: dev
+
+    - name: Create remote directory
+      become: yes
+      file:
+        path: /var/www/wamf
+        state: directory
+
+    - name: Copy over static files
+      become: yes
+      unarchive:
+        src: ./pages.tar.gz
+        dest: /var/www/wamf
+
+    - name: Start containers
+      become_user: "{{ansible_user}}"
+      command:
+        cmd: "{{ item }}"
+        chdir: "{{ ansible_env.HOME }}/infra"
+      loop:
+        - docker compose pull
+        - docker compose up -d

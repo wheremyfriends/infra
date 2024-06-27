@@ -5,8 +5,6 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0644"
-  vars:
-    hostname: dev.wamf.tech
 
 - name: Start caddy
   become_user: "{{ansible_user}}"
