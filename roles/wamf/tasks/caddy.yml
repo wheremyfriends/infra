@@ -1,7 +1,7 @@
 - name: Copy over caddy file
   template:
     src: Caddyfile.j2
-    dest: "{{working_directory}}/Caddyfile"
+    dest: "/etc/caddy/Caddyfile"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0644"
